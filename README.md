@@ -38,7 +38,7 @@ An entry with an empty `id` is skipped, so the section never shows a broken play
 
 Videos are embedded via `youtube-nocookie.com` and only load after a click, so the page stays fast and privacy-friendly.
 
-To add a locally hosted MP4, place it in `videos/` and add an entry with `src`, `title`, `sub`, and `poster` fields to `VIDEOS` in `script.js`. Local videos use the browser's native controls and load metadata before playback. The Gucci clip is encoded as 1080p H.264 for broad browser support, cropped to remove its embedded black bars, and is about 5 MB.
+To add a locally hosted MP4, place it in `videos/` and add an entry with `src`, `title`, `sub`, and `poster` fields to `VIDEOS` in `script.js`. Local videos use the browser's native controls and load metadata before playback.
 
 ## Adding or removing photos
 

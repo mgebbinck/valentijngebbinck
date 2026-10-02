@@ -8,7 +8,7 @@
 /* 1 ─────────── FILM ───────────
    Use "id" for YouTube or "src" for a local MP4 in the repository. */
 const VIDEOS = [
-  { src: "videos/gucci-milan-ss27.mp4", title: "Gucci", sub: "S/S 27 Show · Milan Fashion Week", poster: "images/poster-gucci-video.jpg", description: "A Milan runway appearance for Gucci, adding a new chapter to Valentijn’s Spring/Summer 2027 season." },
+  { id: "MbHOhcy5veA", title: "Gucci", sub: "S/S 27 Show · Milan Fashion Week", poster: "images/poster-gucci-video.jpg", description: "A Milan runway appearance for Gucci, adding a new chapter to Valentijn’s Spring/Summer 2027 season." },
   { id: "E5jf3-mMws0", title: "Dior Men",       sub: "S/S 27 Show · Paris",             poster: "images/poster-dior.jpg", description: "Valentijn opened his Spring/Summer 2027 season on the Dior Men runway in Paris." },
   { id: "egrxdUJ5Kg8", title: "Dries Van Noten", sub: "Men S/S 27 · 25.06.2026",        poster: "images/poster-dvn.jpg", description: "A second Paris runway appearance in three days, for Dries Van Noten’s Spring/Summer 2027 men’s show." },
   { id: "ZqDEHSAR7vo", title: "Ernest W. Baker", sub: "S/S 27 Show · Paris",             poster: "images/poster-ewb.jpg", description: "The third show in Valentijn’s three-day Paris run, completing his Spring/Summer 2027 opening season." }
