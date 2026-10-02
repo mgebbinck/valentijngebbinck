@@ -23,7 +23,7 @@ For a custom domain (e.g. `valentijngebbinck.com`), add it under Settings → Pa
 
 ## Adding the YouTube films
 
-Open `script.js` and fill in the `VIDEOS` list at the top. Only the video ID is needed — the part after `watch?v=` in the URL:
+Open `script.js` and edit the `VIDEOS` list at the top. For YouTube videos, only the video ID is needed — the part after `watch?v=` in the URL:
 
 ```
 https://www.youtube.com/watch?v=egrxdUJ5Kg8
@@ -34,9 +34,11 @@ https://www.youtube.com/watch?v=egrxdUJ5Kg8
 { id: "egrxdUJ5Kg8", title: "Dior Men", sub: "S/S 27 Men’s Show · 24.06.2026", poster: "images/poster-dior.jpg" }
 ```
 
-An entry with an empty `id` is skipped, so the section never shows a broken player. Currently the Dries Van Noten S/S 27 men's show is linked; add your own uploads for Dior Men and Ernest W. Baker.
+An entry with an empty `id` is skipped, so the section never shows a broken player. The current list includes Gucci, Dior Men, Dries Van Noten, and Ernest W. Baker.
 
 Videos are embedded via `youtube-nocookie.com` and only load after a click, so the page stays fast and privacy-friendly.
+
+To add a locally hosted MP4, place it in `videos/` and add an entry with `src`, `title`, `sub`, and `poster` fields to `VIDEOS` in `script.js`. Local videos use the browser's native controls and load metadata before playback. The Gucci clip is encoded as 1080p H.264 for broad browser support, cropped to remove its embedded black bars, and is about 5 MB.
 
 ## Adding or removing photos
 
