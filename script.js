@@ -42,6 +42,23 @@ const PHOTOS = [
   ["pfw-2026-06-27_091701", "Paris · 27 June 2026"]
 ];
 
+function attachImageFallback(img, fallbackText = "Image unavailable") {
+  if (!img) return;
+
+  img.addEventListener("error", () => {
+    img.dataset.broken = "true";
+    img.alt = fallbackText;
+    img.style.display = "none";
+
+    if (img.closest(".lightbox")) {
+      img.hidden = true;
+      if (typeof lbCap !== "undefined" && lbCap) {
+        lbCap.textContent = fallbackText;
+      }
+    }
+  }, { once: true });
+}
+
 /* ───────────────── build film ───────────────── */
 const videoWrap = document.getElementById("videos");
 const live = VIDEOS.filter(v => v.id && v.id.trim());
@@ -66,6 +83,7 @@ if (!live.length) {
       btn.replaceChildren(f);
       btn.style.cursor = "default";
     }, { once: true });
+    attachImageFallback(btn.querySelector("img"), v.title + " poster unavailable");
     videoWrap.appendChild(btn);
   });
 }
@@ -79,19 +97,25 @@ PHOTOS.forEach(([slug, caption], i) => {
   fig.innerHTML =
     '<img src="images/thumbs/' + slug + '.jpg" alt="Valentijn Gebbinck — ' + caption + '" loading="lazy" decoding="async">' +
     "<figcaption>" + caption + "</figcaption>";
+  attachImageFallback(fig.querySelector("img"), caption + " image unavailable");
   fig.addEventListener("click", () => openLightbox(i));
   gallery.appendChild(fig);
 });
+
+document.querySelectorAll("img:not(#lbImg)").forEach(img => attachImageFallback(img, "Image unavailable"));
 
 /* ───────────────── lightbox ───────────────── */
 const lb = document.getElementById("lightbox");
 const lbImg = document.getElementById("lbImg");
 const lbCap = document.getElementById("lbCap");
+attachImageFallback(lbImg, "Image unavailable");
 let current = 0;
 
 function openLightbox(i) {
   current = (i + PHOTOS.length) % PHOTOS.length;
   const [slug, caption] = PHOTOS[current];
+  lbImg.hidden = false;
+  lbImg.style.display = "";
   lbImg.src = "images/" + slug + ".jpg";
   lbImg.alt = "Valentijn Gebbinck — " + caption;
   lbCap.textContent = caption;
@@ -100,6 +124,8 @@ function openLightbox(i) {
 }
 function closeLightbox() {
   lb.hidden = true;
+  lbImg.hidden = false;
+  lbImg.style.display = "";
   lbImg.src = "";
   document.body.style.overflow = "";
 }

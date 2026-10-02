@@ -49,7 +49,7 @@ Videos are embedded via `youtube-nocookie.com` and only load after a click, so t
 
 The order of the list is the order on the page. Removing a line removes the photo.
 
-Recommended sizes: full-size max 1800px on the long edge, thumbnails max 900px, JPEG quality ~80. Keeping images below ~500 KB keeps the site quick on mobile.
+Recommended sizes: full-size max 1800px on the long edge, thumbnails max 900px, JPEG quality ~80. Keeping images below ~500 KB keeps the site quick on mobile. If a photo path is wrong or a file is missing, the gallery quietly hides the broken image instead of leaving a blank gap.
 
 ## Notes
 
