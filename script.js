@@ -1,28 +1,24 @@
 /* =========================================================
    Valentijn Gebbinck — site script
    ---------------------------------------------------------
-   1. VIDEOS  — paste your YouTube IDs below (see README.md)
+   1. VIDEOS  — add YouTube IDs or local MP4 files below
    2. PHOTOS  — add/remove/reorder entries in PHOTOS
    ========================================================= */
 
 /* 1 ─────────── FILM ───────────
-   "id" is the part of the YouTube URL after  watch?v=
-   e.g. https://www.youtube.com/watch?v=egrxdUJ5Kg8  ->  id: "egrxdUJ5Kg8"
-   Entries with an empty id are simply not shown.            */
+   Use "id" for YouTube or "src" for a local MP4 in the repository. */
 const VIDEOS = [
-  { id: "",            title: "Dior Men",       sub: "S/S 27 Men’s Show · 24.06.2026", poster: "images/poster-dior.jpg" },
-  { id: "egrxdUJ5Kg8", title: "Dries Van Noten", sub: "Men S/S 27 · 25.06.2026",        poster: "images/poster-dvn.jpg"  },
-  { id: "",            title: "Ernest W. Baker", sub: "S/S 27 Show · 26.06.2026",       poster: "images/poster-ewb.jpg"  }
+  { src: "videos/gucci-milan-ss27.mp4", title: "Gucci", sub: "S/S 27 Show · Milan Fashion Week", poster: "images/poster-gucci-video.jpg", description: "A Milan runway appearance for Gucci, adding a new chapter to Valentijn’s Spring/Summer 2027 season." },
+  { id: "E5jf3-mMws0", title: "Dior Men",       sub: "S/S 27 Show · Paris",             poster: "images/poster-dior.jpg", description: "Valentijn opened his Spring/Summer 2027 season on the Dior Men runway in Paris." },
+  { id: "egrxdUJ5Kg8", title: "Dries Van Noten", sub: "Men S/S 27 · 25.06.2026",        poster: "images/poster-dvn.jpg", description: "A second Paris runway appearance in three days, for Dries Van Noten’s Spring/Summer 2027 men’s show." },
+  { id: "ZqDEHSAR7vo", title: "Ernest W. Baker", sub: "S/S 27 Show · Paris",             poster: "images/poster-ewb.jpg", description: "The third show in Valentijn’s three-day Paris run, completing his Spring/Summer 2027 opening season." }
 ];
 
 /* 2 ─────────── PORTFOLIO ─────────── */
 const PHOTOS = [
+  ["gucci-ss27-milan",           "Gucci S/S 27 · Milan · September 2026"],
+  ["gucci-ss27-milan-portfolio", "Gucci S/S 27 · Milan · September 2026"],
   ["pfw-2026-06-24_061717", "Paris · 24 June 2026"],
-  ["pfw-2026-06-24_073120", "Paris · 24 June 2026"],
-  ["pfw-2026-06-24_075608", "Paris · 24 June 2026"],
-  ["pfw-2026-06-24_075623", "Paris · 24 June 2026"],
-  ["pfw-2026-06-24_121044", "Paris · 24 June 2026"],
-  ["pfw-2026-06-24_121950", "Paris · 24 June 2026"],
   ["pfw-2026-06-24_165420", "Paris · 24 June 2026"],
   ["pfw-2026-06-24_165707", "Paris · 24 June 2026"],
   ["pfw-2026-06-24_182023", "Paris · 24 June 2026"],
@@ -32,8 +28,6 @@ const PHOTOS = [
   ["pfw-2026-06-24_191303", "Paris · 24 June 2026"],
   ["pfw-2026-06-24_193236", "Paris · 24 June 2026"],
   ["pfw-2026-06-24_203224", "Paris · 24 June 2026"],
-  ["pfw-2026-06-25_175718", "Paris · 25 June 2026"],
-  ["pfw-2026-06-25_182816", "Paris · 25 June 2026"],
   ["pfw-2026-06-25_225803", "Paris · 25 June 2026"],
   ["ewb-backstage",         "Ernest W. Baker S/S 27 · 26 June 2026"],
   ["pfw-2026-06-26_085613", "Paris · 26 June 2026"],
@@ -61,11 +55,47 @@ function attachImageFallback(img, fallbackText = "Image unavailable") {
 
 /* ───────────────── build film ───────────────── */
 const videoWrap = document.getElementById("videos");
-const live = VIDEOS.filter(v => v.id && v.id.trim());
+const live = VIDEOS.filter(v => (v.src && v.src.trim()) || (v.id && v.id.trim()));
 if (!live.length) {
   document.getElementById("videosEmpty").hidden = false;
 } else {
   live.forEach(v => {
+    if (v.src) {
+      const card = document.createElement("article");
+      card.className = "video-card";
+
+      const playerFigure = document.createElement("figure");
+      playerFigure.className = "vid vid--local";
+
+      const player = document.createElement("video");
+      player.controls = true;
+      player.preload = "metadata";
+      player.playsInline = true;
+      player.poster = v.poster;
+      player.setAttribute("aria-label", v.title + " — " + v.sub);
+
+      const source = document.createElement("source");
+      source.src = v.src;
+      source.type = "video/mp4";
+      player.appendChild(source);
+
+      const caption = document.createElement("figcaption");
+      caption.className = "vid__label";
+      const title = document.createElement("b");
+      title.textContent = v.title;
+      caption.append(title, document.createTextNode(v.sub));
+      playerFigure.append(player, caption);
+      card.appendChild(playerFigure);
+      const description = document.createElement("p");
+      description.className = "video-card__description";
+      description.textContent = v.description;
+      card.appendChild(description);
+      videoWrap.appendChild(card);
+      return;
+    }
+
+    const card = document.createElement("article");
+    card.className = "video-card";
     const btn = document.createElement("button");
     btn.className = "vid";
     btn.type = "button";
@@ -84,7 +114,12 @@ if (!live.length) {
       btn.style.cursor = "default";
     }, { once: true });
     attachImageFallback(btn.querySelector("img"), v.title + " poster unavailable");
-    videoWrap.appendChild(btn);
+    card.appendChild(btn);
+    const description = document.createElement("p");
+    description.className = "video-card__description";
+    description.textContent = v.description;
+    card.appendChild(description);
+    videoWrap.appendChild(card);
   });
 }
 
